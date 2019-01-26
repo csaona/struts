@@ -23,7 +23,7 @@
 	This will be done if ActionSupport is used.
 -->
 <#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]??/>
-<#if (parameters.errorposition!"top") == 'top'>
+<#if (parameters.errorposition!"yuhu") == 'top'><#-- CSV: We do not want error messages at the top by default-->
 <#if hasFieldErrors>
 <#list fieldErrors[parameters.name] as error>
 <tr errorFor="${parameters.id}">
@@ -60,15 +60,11 @@
         class="label"<#t/>
 </#if>
     ><#t/>
-<#if (parameters.required!false) && ((parameters.requiredPosition!"right") != 'right')>
-        <span class="required">*</span><#t/>
-</#if>
+<#-- CSV: We do not want "*" marking required fields, removed left span -->
 ${parameters.label}<#t/>
-<#if (parameters.required!false) && ((parameters.requiredPosition!"right") == 'right')>
- <span class="required">*</span><#t/>
-</#if>
+<#-- CSV: We do not want "*" marking required fields, removed right span -->
 ${parameters.labelseparator!":"}<#t/>
-<#include "/${parameters.templateDir}/${parameters.expandTheme}/tooltip.ftl" />
+<#-- CSV: Removed tooltip.ftl include (ugly, you implement it with a infobar later)-->
 </label><#t/>
 </#if>
     </td><#lt/>

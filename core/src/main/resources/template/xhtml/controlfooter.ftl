@@ -18,19 +18,22 @@
  * under the License.
  */
 -->
-${parameters.after!}<#t/>
-    </td><#lt/>
-</tr>
-<#if (parameters.errorposition!"top") == 'bottom'>
+<#if (parameters.errorposition!"bottom") == 'bottom'><#-- CSV: Make bottom the default -->
 <#assign hasFieldErrors = parameters.name?? && fieldErrors?? && fieldErrors[parameters.name]??/>
 <#if hasFieldErrors>
 <#list fieldErrors[parameters.name] as error>
-<tr errorFor="${parameters.id}">
-    <td class="tdErrorMessage" colspan="2"><#rt/>
-        <span class="errorMessage">${error}</span><#t/>
-    </td><#lt/>
-</tr>
+<#-- CSV: Removed tr and td, leaving only the span -->
+        <span class="errorMessage vanadium-advice vanadium-invalid">${error}</span><#t/><#-- CSV: Added Chameleon error classes -->
 </#list>
 </#if>
 </#if>
-
+<#if parameters.required?default(false) && !parameters.tooltip??><#-- CSV: tooltip implemented with Chameleon's infobar -->
+<span class="infobar">Obligatorio</span><#t/>
+<#elseif parameters.required?default(false) && parameters.tooltip??>
+<span class="infobar">Obligatorio. ${parameters.tooltip}</span><#t/>
+<#elseif !parameters.required?default(false) && parameters.tooltip??>
+<span class="infobar">${parameters.tooltip}</span><#t/>
+</#if>
+${parameters.after!}<#t/><#-- CSV: Originally this was at the top of the file -->
+    </td><#lt/>
+</tr>
